@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const Thing = require("./models/thing");
+const Thing = require("./models/Thing");
 
 mongoose
   .connect(
@@ -25,7 +25,6 @@ app.use((req, res, next) => {
 });
 
 app.post("/api/stuff", (req, res, next) => {
-  delete req.body._id;
   const thing = new Thing({
     ...req.body,
   });
