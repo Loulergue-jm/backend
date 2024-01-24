@@ -27,6 +27,9 @@ app.use((req, res, next) => {
 });
 
 app.post("/api/stuff", (req, res, next) => {
+  console.log("req.body: ", req.body);
+  console.log("res.body: ", res.body);
+
   delete req.body._id;
   const thing = new Thing({
     ...req.body,
@@ -35,12 +38,14 @@ app.post("/api/stuff", (req, res, next) => {
     .save()
     .then(() => res.status(201).json({ message: "Objet enregistré !" }))
     .catch((error) => res.status(400).json({ error }));
+  next();
 });
 
 app.get("/api/stuff", (req, res, next) => {
   Thing.find()
     .then((things) => res.status(200).json(things))
     .catch((error) => res.status(400).json({ error }));
+  next();
 });
 
 module.exports = app;
