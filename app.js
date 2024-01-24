@@ -2,10 +2,12 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const Thing = require("./models/Thing");
+const config = require("./config");
+const password = config.password;
 
 mongoose
   .connect(
-    "mongodb+srv://loulerguejm:d1EZDVzrVxEZ9Gji@cluster0.mcyubxl.mongodb.net/?retryWrites=true&w=majority",
+    `mongodb+srv://${password}@cluster0.mcyubxl.mongodb.net/?retryWrites=true&w=majority`,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => console.log("Connexion à MongoDB réussie !"))
@@ -25,6 +27,7 @@ app.use((req, res, next) => {
 });
 
 app.post("/api/stuff", (req, res, next) => {
+  delete req.body._id;
   const thing = new Thing({
     ...req.body,
   });
