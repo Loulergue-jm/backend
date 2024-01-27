@@ -12,7 +12,7 @@ mongoose
   )
   .then(() => console.log("Connexion à MongoDB réussie !"))
   .catch(() => console.log("Connexion à MongoDB échouée !"));
-
+app.use(express.json());
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -38,14 +38,12 @@ app.post("/api/stuff", (req, res, next) => {
     .save()
     .then(() => res.status(201).json({ message: "Objet enregistré !" }))
     .catch((error) => res.status(400).json({ error }));
-  next();
 });
 
 app.get("/api/stuff", (req, res, next) => {
-  Thing.find()
+  return Thing.find()
     .then((things) => res.status(200).json(things))
     .catch((error) => res.status(400).json({ error }));
-  next();
 });
 
 module.exports = app;
